@@ -1,0 +1,6 @@
+Flask
+Flask_SQLAlchemy
+Flask_Bcrypt
+psycopg2
+PyJWT
+
