@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+import os 
 from flask import Flask
 from config import Config
 from models import db, bcrypt, User, Department, Message  # Import models to create tables
