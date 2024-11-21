@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api',  // Change this to your Flask backend URL
+  baseURL: 'http://192.168.100.4:5000',  // Change this to your Flask backend URL
 });
 
 export const loginUser = (username, password) => {

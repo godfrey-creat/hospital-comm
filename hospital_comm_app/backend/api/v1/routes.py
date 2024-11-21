@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from models import db, User, Department, Message, bcrypt
+from models.models import db, User, Department, Message, bcrypt
 import jwt
 from functools import wraps
 

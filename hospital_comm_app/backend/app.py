@@ -2,7 +2,9 @@
 import os 
 from flask import Flask
 from config import Config
-from models import db, bcrypt, User, Department, Message  # Import models to create tables
+from api.v1.routes import routes
+from models.models import db
+#from hospital_comm_app.backend.models.models import db, bcrypt, User, Department, Message  # Import models to create tables
 from flask_migrate import Migrate
 
 def create_app():
@@ -17,8 +19,8 @@ def create_app():
     migrate = Migrate(app, db)  # Add database migrations support
 
     # Register the main blueprint
-    from routes import main
-    app.register_blueprint(main)
+    #from hospital_comm_app.backend.api.v1.routes import main
+    #app.register_blueprint(main)
 
     # Create database tables if they don't exist
     with app.app_context():
@@ -27,6 +29,11 @@ def create_app():
     return app
 
 if __name__ == '__main__':
-    app = create_app()
-    app.run(host='0.0.0.0')
+    create_db()
+    app.run(
+        debug=True,
+        host="0.0.0.0",
+        port=5000
+    )
+
 
