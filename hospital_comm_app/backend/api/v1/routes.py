@@ -1,4 +1,6 @@
 from flask import Blueprint, request, jsonify
+from flask_bcrypt import bcrypt 
+from flask_bcrypt import Bcrypt
 from models.models import db, User, Department, Message, bcrypt
 import jwt
 from functools import wraps
