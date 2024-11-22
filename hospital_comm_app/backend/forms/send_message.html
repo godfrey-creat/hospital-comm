@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Send Message</title>
+</head>
+<body>
+    <h1>Send Message</h1>
+    <form method="post">
+        {{ form.hidden_tag() }}
+        {{ form.content.label }} {{ form.content(cols=50, rows=5) }}
+        {{ form.submit() }}
+    </form>
+</body>
+</html>
