@@ -1,7 +1,10 @@
-from flask import Blueprint, request, jsonify
-from flask_bcrypt import bcrypt 
+from flask import Blueprint, request, jsonify, render_template
 from flask_bcrypt import Bcrypt
-from models.models import db, User, Department, Message, bcrypt
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField
+from wtforms.validators import DataRequired, Length, ValidationError, EqualTo
+from models.models import db, User, Department, Message
+from forms.forms import RegisterAdminForm, LoginForm, CreateDepartmentForm, SendMessageForm
 import jwt
 from functools import wraps
 
@@ -23,44 +26,47 @@ def token_required(f):
     return decorated
 
 # Route to register the first administrator
-@main.route('/api/register_admin', methods=['POST'])
+@main.route('/api/register_admin', methods=['GET', 'POST'])
 def register_admin():
-    # Check if any admins already exist
-    if User.query.filter_by(is_admin=True).first():
-        return jsonify({'message': 'An administrator already exists!'}), 403
+    form = RegisterAdminForm()
+    if form.validate_on_submit():
+        if User.query.filter_by(is_admin=True).first():
+            return jsonify({'message': 'An administrator already exists!'}), 403
 
-    data = request.get_json()
-    if 'username' not in data or 'password' not in data:
-        return jsonify({'message': 'Username and password are required'}), 400
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        new_admin = User(username=form.username.data, password=hashed_password, is_admin=True)
+        db.session.add(new_admin)
+        db.session.commit()
+        return jsonify({'message': 'Administrator registered successfully!'})
+    return render_template('register_admin.html', form=form)
 
-    # Create a new admin user
-    hashed_password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
-    new_admin = User(username=data['username'], password=hashed_password, is_admin=True)
-    db.session.add(new_admin)
-    db.session.commit()
-
-    return jsonify({'message': 'Administrator registered successfully!'})
 # Login route
-@main.route('/api/login', methods=['POST'])
+@main.route('/api/login', methods=['GET', 'POST'])
 def login():
-    data = request.get_json()
-    user = User.query.filter_by(username=data['username']).first()
-    if user and bcrypt.check_password_hash(user.password, data['password']):
-        token = jwt.encode({'user_id': user.id}, "SECRET_KEY", algorithm='HS256')
-        return jsonify({'token': token})
-    return jsonify({'message': 'Invalid credentials'}), 401
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            token = jwt.encode({'user_id': user.id}, "SECRET_KEY", algorithm='HS256')
+            return jsonify({'token': token})
+        return jsonify({'message': 'Invalid credentials'}), 401
+    return render_template('login.html', form=form)
+
 
 # Route to create departments (accessible by admin only)
-@main.route('/api/departments', methods=['POST'])
+@main.route('/api/departments', methods=['GET', 'POST'])
 @token_required
 def create_department(current_user):
     if not current_user.is_admin:
         return jsonify({'message': 'Unauthorized access'}), 403
-    data = request.get_json()
-    department = Department(name=data['name'])
-    db.session.add(department)
-    db.session.commit()
-    return jsonify({'message': f'Department {department.name} created successfully'})
+
+    form = CreateDepartmentForm()
+    if form.validate_on_submit():
+        department = Department(name=form.name.data)
+        db.session.add(department)
+        db.session.commit()
+        return jsonify({'message': f'Department {department.name} created successfully'})
+    return render_template('create_department.html', form=form)
 
 # Route to add user to a department (admin only)
 @main.route('/api/departments/<int:department_id>/users', methods=['POST'])
@@ -73,6 +79,23 @@ def add_user_to_department(current_user, department_id):
     db.session.add(user)
     db.session.commit()
     return jsonify({'message': f'User {user.username} added to department {department_id} successfully'})
+
+@main.route('/api/departments/<int:department_id>/messages', methods=['GET', 'POST'])
+@token_required
+def handle_messages(current_user, department_id):
+    if current_user.department_id != department_id and not current_user.is_admin:
+        return jsonify({'message': 'Access denied'}), 403
+
+    form = SendMessageForm()
+    if form.validate_on_submit():
+        message = Message(sender_id=current_user.id, department_id=department_id, content=form.content.data)
+        db.session.add(message)
+        db.session.commit()
+        return jsonify({'message': 'Message sent successfully'})
+
+    messages = Message.query.filter_by(department_id=department_id).all()
+    messages_data = [{'sender': msg.sender_id, 'content': msg.content, 'timestamp': msg.timestamp} for msg in messages]
+    return render_template('messages.html', form=form, messages=messages_data)
 
 # Route to assign department head (admin only)
 @main.route('/api/departments/<int:department_id>/assign_head', methods=['POST'])
