@@ -29,7 +29,14 @@ class SendMessageForm(FlaskForm):
     content = TextAreaField('Message Content', validators=[DataRequired(), Length(max=500)])
     submit = SubmitField('Send Message')
 
-class CreateLoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(min=3, max=50)])
-    password = PasswordField('Password', validators=[DataRequired(), Length(min=6, max=100)])
-    submit = SubmitField('Create Login')
+class CreateLoginsForm(FlaskForm):
+    username = StringField('Username', validators=[
+        DataRequired(), Length(min=4, max=25)
+    ])
+    password = PasswordField('Password', validators=[
+        DataRequired(), Length(min=6)
+    ])
+    confirm_password = PasswordField('Confirm Password', validators=[
+        DataRequired(), EqualTo('password', message='Passwords must match')
+    ])
+    submit = SubmitField('Create Logins')

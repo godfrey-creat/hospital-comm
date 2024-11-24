@@ -1,15 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Create Department</title>
-</head>
-<body>
-    <h1>Create Department</h1>
-    <form method="post">
+{% extends 'forms/base.html' %}
+
+{% block title %}Create Department{% endblock %}
+
+{% block content %}
+<section id="create_department" class="create-department">
+  <div class="container">
+    <div class="section-title">
+      <h2>Create Department</h2>
+      <p>Add a new department to the organization.</p>
+    </div>
+
+    <div class="col-lg-6">
+      {{msg}}
+      <form method="POST" action="{{ url_for('main.create_department') }}" role="form">
         {{ form.hidden_tag() }}
-        {{ form.name.label }} {{ form.name(size=50) }}
-        {{ form.submit() }}
-    </form>
-</body>
-</html>
+        <div class="form-group mt-3">
+          <label for="name">Department Name:</label>
+          {{ form.name(class="form-control") }}
+        </div>
+        <div class="form-group mt-3">
+          <button class="btn btn-primary" type="submit">Create</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}
+

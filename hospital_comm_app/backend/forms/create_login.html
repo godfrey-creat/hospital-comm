@@ -1,16 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Create Login</title>
-</head>
-<body>
-    <h1>Create Login</h1>
-    <form method="post">
+{% extends 'forms/base.html' %}
+
+{% block title %}Create Logins for User{% endblock %}
+
+{% block content %}
+<section id="create_logins" class="create_logins">
+  <div class="container">
+    <div class="section-title">
+      <h2>Create Logins for User</h2>
+      <p>Generate login credentials for a user by filling out the form below.</p>
+    </div>
+    <div class="form-container">
+      <form method="POST" action="{{ url_for('main.create_logins', user_id=user_id) }}" role="form">
         {{ form.hidden_tag() }}
-        {{ form.username.label }} {{ form.username(size=20) }}
-        {{ form.password.label }} {{ form.password(size=20) }}
-        {{ form.submit() }}
-    </form>
-</body>
-</html>
+
+        <div class="form-group mt-3">
+          <label for="username">Username:</label>
+          {{ form.username(class="form-control", placeholder="Enter username") }}
+        </div>
+
+        <div class="form-group mt-3">
+          <label for="password">Password:</label>
+          {{ form.password(class="form-control", placeholder="Enter password") }}
+        </div>
+
+        <div class="form-group mt-3">
+          <label for="confirm_password">Confirm Password:</label>
+          {{ form.confirm_password(class="form-control", placeholder="Confirm password") }}
+        </div>
+
+        <div class="form-group mt-3">
+          <button type="submit" class="btn btn-primary">Create Logins</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
