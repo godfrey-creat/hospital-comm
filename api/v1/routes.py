@@ -10,6 +10,11 @@ from functools import wraps
 
 main = Blueprint('main', __name__)
 
+@main.route('/')
+def index():
+    """Print Web"""
+    return render_template('landing_page/index.html') 
+
 # Authentication decorator
 def token_required(f):
     @wraps(f)
