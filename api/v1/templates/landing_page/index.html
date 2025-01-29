@@ -1,1 +1,110 @@
-gody
+{% extends 'forms/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<!-- ======= Hero Section ======= -->
+<section id="hero">
+  <div id="heroCarousel" data-bs-interval="5000" class="carousel slide carousel-fade" data-bs-ride="carousel">
+
+    <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+
+    <div class="carousel-inner" role="listbox">
+
+      <!-- Slide 1 -->
+      <div class="carousel-item active" style="background-image: url(../static/assets/img/slide/slide-1.jpg)">
+        <div class="container">
+          <h2>Welcome to <span>HospitalConnect</span></h2>
+          <p>HospitalConnect is your central hub for seamless interdepartmental communication, ensuring effective coordination and timely care delivery. Experience the power of connected healthcare systems that bring departments closer for better patient outcomes.</p>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="carousel-item" style="background-image: url(../static/assets/img/slide/slide-2.jpg)">
+        <div class="container">
+          <h2>Streamlined Operations</h2>
+          <p>From patient admissions to laboratory results and pharmacy requests, HospitalConnect bridges the gaps between departments. Our platform optimizes workflow efficiency, reduces delays, and ensures every patient gets the care they need on time.</p>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="carousel-item" style="background-image: url(../static/assets/img/slide/slide-3.jpg)">
+        <div class="container">
+          <h2>Collaborative Care</h2>
+          <p>Empower your team with tools that foster collaboration. HospitalConnect enables real-time updates, task tracking, and secure messaging to ensure all departments stay aligned and focused on patient care.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <a class="carousel-control-prev" href="#heroCarousel" role="button" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
+    </a>
+
+    <a class="carousel-control-next" href="#heroCarousel" role="button" data-bs-slide="next">
+      <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
+    </a>
+
+  </div>
+</section><!-- End Hero -->
+
+<main id="main">
+
+  <!-- ======= Featured Services Section ======= -->
+  <section id="featured-services" class="featured-services">
+    <div class="container" data-aos="fade-up">
+
+      <div class="row">
+        <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+          <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
+            <div class="icon"><i class="fas fa-user-md"></i></div>
+            <h4 class="title"><a href="">Patient Admissions</a></h4>
+            <p class="description">Effortlessly share patient details and admission statuses with relevant departments, enabling smooth onboarding and immediate care initiation.</p>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+          <div class="icon-box" data-aos="fade-up" data-aos-delay="200">
+            <div class="icon"><i class="fas fa-vial"></i></div>
+            <h4 class="title"><a href="">Lab Results</a></h4>
+            <p class="description">Instantly communicate laboratory results with physicians and nurses to ensure timely diagnosis and treatment decisions.</p>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+          <div class="icon-box" data-aos="fade-up" data-aos-delay="300">
+            <div class="icon"><i class="fas fa-pills"></i></div>
+            <h4 class="title"><a href="">Pharmacy Requests</a></h4>
+            <p class="description">Streamline medication orders and availability checks to ensure patients receive prescribed treatments without delay.</p>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+          <div class="icon-box" data-aos="fade-up" data-aos-delay="400">
+            <div class="icon"><i class="fas fa-ambulance"></i></div>
+            <h4 class="title"><a href="">Emergency Coordination</a></h4>
+            <p class="description">Coordinate emergency responses effectively by connecting the ER, radiology, and critical care units in real-time.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section><!-- End Featured Services Section -->
+
+  <!-- ======= Cta Section ======= -->
+  <section id="cta" class="cta">
+    <div class="container" data-aos="zoom-in">
+
+      <div class="text-center">
+        <h3>Need to Coordinate a Task? Contact Now!</h3>
+        <p> HospitalConnect ensures swift communication and task assignment across all hospital departments. Stay connected and deliver excellence in care, 24/7.</p>
+        <a class="cta-btn scrollto" href="#contact">Get in Touch</a>
+      </div>
+
+    </div>
+  </section><!-- End Cta Section -->
+
+</main><!-- End #main -->
+
+{% endblock %}
