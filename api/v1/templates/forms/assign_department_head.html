@@ -1,0 +1,28 @@
+{% extends 'forms/base.html' %}
+
+{% block title %}Assign Department Head{% endblock %}
+
+{% block content %}
+<section id="assign_head" class="assign_head">
+  <div class="container">
+    <div class="section-title">
+      <h2>Assign Department Head</h2>
+      <p>Promote a user to be the head of a specific department by completing the form below.</p>
+    </div>
+    <div class="form-container">
+      <form method="POST" action="{{ url_for('main.assign_department_head', department_id=department_id) }}" role="form">
+        {{ form.hidden_tag() }}
+
+        <div class="form-group mt-3">
+          <label for="user_id">User ID:</label>
+          {{ form.user_id(class="form-control", placeholder="Enter the user ID") }}
+        </div>
+
+        <div class="form-group mt-3">
+          <button type="submit" class="btn btn-primary">Assign Head</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}
