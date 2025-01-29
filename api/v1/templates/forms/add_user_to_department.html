@@ -1,0 +1,33 @@
+{% extends 'forms/base.html' %}
+
+{% block title %}Add User to Department{% endblock %}
+
+{% block content %}
+<section id="add_user" class="add_user">
+  <div class="container">
+    <div class="section-title">
+      <h2>Add User to Department</h2>
+      <p>Assign a new user to a specific department by filling out the form below.</p>
+    </div>
+    <div class="form-container">
+      <form method="POST" action="{{ url_for('main.add_user_to_department', department_id=department_id) }}" role="form">
+        {{ form.hidden_tag() }}
+        
+        <div class="form-group mt-3">
+          <label for="username">Username:</label>
+          {{ form.username(class="form-control", placeholder="Enter username") }}
+        </div>
+
+        <div class="form-group mt-3">
+          <label for="password">Password:</label>
+          {{ form.password(class="form-control", placeholder="Enter password") }}
+        </div>
+
+        <div class="form-group mt-3">
+          <button type="submit" class="btn btn-primary">Add User</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}
